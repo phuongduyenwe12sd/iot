@@ -1,0 +1,99 @@
+/* Container chỉnh sửa */
+.edit-container {
+  padding: 24px;
+}
+
+/* Card có bóng và bo tròn mượt */
+.edit-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  background: #fff;
+  padding: 24px;
+}
+
+/* Form */
+.edit-form {
+  margin-top: 16px;
+}
+
+/* Input, Select, DatePicker, TextArea, NumberInput */
+.edit-form input,
+.edit-form .ant-input,
+.edit-form .ant-input-number-input,
+.edit-form .ant-input-affix-wrapper,
+.edit-form .ant-picker,
+.edit-form .ant-select-selector,
+.edit-form .ant-select-selection-item,
+.edit-form textarea {
+  color: rgba(0, 0, 0, 0.85) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  transition: all 0.3s;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Focus: Viền và shadow rõ ràng */
+.edit-form .ant-input:focus,
+.edit-form .ant-input-affix-wrapper:focus-within,
+.edit-form .ant-select-focused .ant-select-selector,
+.edit-form .ant-picker-focused {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.3) !important;
+}
+
+/* Select khi chưa chọn */
+.edit-form .ant-select-selector {
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Placeholder */
+.edit-form ::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dropdown text */
+.ant-select-dropdown .ant-select-item {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* Date Picker */
+.ant-picker-content th,
+.ant-picker-content td {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* Label đậm hơn */
+.ant-form-item-label > label {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+/* Trường disabled */
+.ant-input[disabled],
+.edit-form input[disabled] {
+  background-color: #f5f5f5 !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* Action buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .edit-supplier-container {
+    padding: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
