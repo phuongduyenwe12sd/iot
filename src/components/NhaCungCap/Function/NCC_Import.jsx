@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Upload, Button, message, Table, Modal, Card, Space, Alert, 
-  Typography, Divider, Spin, Tooltip, Badge, Switch
+  Typography, Divider, Spin, Tooltip, Badge, Switch, Result
 } from 'antd';
 import { 
   InboxOutlined, FileExcelOutlined, CheckCircleOutlined, 
@@ -24,6 +24,43 @@ const NhaCungCap_Import = ({ open, onClose, onSuccess }) => {
   const [errorItems, setErrorItems] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
   const [addCurrentDate, setAddCurrentDate] = useState(true);
+  const [hasPermission, setHasPermission] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      checkPermission();
+    }
+  }, [open]);
+
+  const checkPermission = async () => {
+    try {
+      // Get user data from localStorage
+      const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+      
+      // First check if userData has the username
+      if (userData && userData.ten_dang_nhap === 'TNphuong') {
+        setHasPermission(true);
+        return;
+      }
+      
+      // If not, verify from API
+      const response = await fetch('https://dx.hoangphucthanh.vn:3000/maintenance/accounts');
+      const result = await response.json();
+      
+      if (result.success && Array.isArray(result.data)) {
+        const currentUser = result.data.find(
+          account => account.ten_dang_nhap === userData.ten_dang_nhap
+        );
+        
+        setHasPermission(currentUser && currentUser.ten_dang_nhap === 'TNphuong');
+      } else {
+        setHasPermission(false);
+      }
+    } catch (error) {
+      console.error('Error checking permissions:', error);
+      setHasPermission(false);
+    }
+  };
 
   const columnMapping = {
     'Mã nhà cung cấp': 'ma_nha_cung_cap',
@@ -75,10 +112,12 @@ const NhaCungCap_Import = ({ open, onClose, onSuccess }) => {
     </Dragger>
   );
 
-  // Import the data
- // Inside the NhaCungCap_Import component, update the handleImport function:
+  const handleImport = async () => {
+    if (!hasPermission) {
+      message.error('Bạn không có quyền nhập dữ liệu. Chỉ tài khoản TNphuong mới có quyền này.');
+      return;
+    }
 
-const handleImport = async () => {
     if (errorItems.length > 0) {
       message.error('Vui lòng sửa lỗi trước khi nhập dữ liệu!');
       return;
@@ -92,6 +131,9 @@ const handleImport = async () => {
     setImportLoading(true);
     
     try {
+      // Implementation of import logic as in your original file
+      // ...existing logic...
+
       // Prepare data for import
       const dataToImport = parsedData.map(item => {
         // Create a copy to avoid modifying the original
@@ -117,6 +159,7 @@ const handleImport = async () => {
 
       const response = await createItem('https://dx.hoangphucthanh.vn:3000/maintenance/suppliers', dataToImport);
       
+      // Rest of your implementation...
       if (!response.ok) {
         // If the first attempt fails, try an alternative format
         console.log('First attempt failed, trying alternative format...');
@@ -159,13 +202,7 @@ const handleImport = async () => {
       console.error('Error importing data:', error);
       message.error(`Không thể nhập dữ liệu: ${error.message}`);
       
-      // For debugging: Log the exact data we're trying to send
-      console.log('Data being sent:', JSON.stringify(parsedData.map(item => {
-        const copy = {...item};
-        delete copy.key;
-        return copy;
-      })));
-      
+      // Your existing fallback logic...
       // Demo mode - simulate success
       message.info('Thử một cách khác - tạo từng nhà cung cấp một...');
       
@@ -238,6 +275,7 @@ const handleImport = async () => {
 
   // Preview data columns
   const previewColumns = [
+    // ...existing columns definition...
     { 
       title: 'STT', 
       dataIndex: 'key', 
@@ -427,38 +465,51 @@ const handleImport = async () => {
       width={1000}
       destroyOnClose
     >
-      <Spin spinning={importLoading} tip="Đang nhập dữ liệu...">
-        <div className="import-container">
-          {!showPreview && (
-            <Alert
-              message="Hướng dẫn nhập dữ liệu"
-              description={
-                <ol>
-                  <li>Tải xuống file mẫu Excel hoặc sử dụng file có cấu trúc tương tự.</li>
-                  <li>Điền thông tin nhà cung cấp vào file (mỗi dòng là một nhà cung cấp).</li>
-                  <li>Tải lên file Excel đã điền thông tin.</li>
-                  <li>Kiểm tra dữ liệu xem trước và sửa các lỗi nếu có.</li>
-                  <li>Nhấn "Nhập dữ liệu" để hoàn tất.</li>
-                </ol>
-              }
-              type="info"
-              showIcon
-            />
-          )}
-
-          <div className="import-content">
-            {!showPreview ? (
-              <>
-                {renderTemplateSection()}
-                <Divider />
-                {renderUploader()}
-              </>
-            ) : (
-              renderPreview()
+      {!hasPermission ? (
+        <Result
+          status="403"
+          title="Không có quyền truy cập"
+          subTitle="Chỉ tài khoản TNphuong mới có quyền nhập dữ liệu nhà cung cấp."
+          extra={
+            <Button type="primary" onClick={onClose}>
+              Quay lại
+            </Button>
+          }
+        />
+      ) : (
+        <Spin spinning={importLoading} tip="Đang nhập dữ liệu...">
+          <div className="import-container">
+            {!showPreview && (
+              <Alert
+                message="Hướng dẫn nhập dữ liệu"
+                description={
+                  <ol>
+                    <li>Tải xuống file mẫu Excel hoặc sử dụng file có cấu trúc tương tự.</li>
+                    <li>Điền thông tin nhà cung cấp vào file (mỗi dòng là một nhà cung cấp).</li>
+                    <li>Tải lên file Excel đã điền thông tin.</li>
+                    <li>Kiểm tra dữ liệu xem trước và sửa các lỗi nếu có.</li>
+                    <li>Nhấn "Nhập dữ liệu" để hoàn tất.</li>
+                  </ol>
+                }
+                type="info"
+                showIcon
+              />
             )}
+
+            <div className="import-content">
+              {!showPreview ? (
+                <>
+                  {renderTemplateSection()}
+                  <Divider />
+                  {renderUploader()}
+                </>
+              ) : (
+                renderPreview()
+              )}
+            </div>
           </div>
-        </div>
-      </Spin>
+        </Spin>
+      )}
     </Modal>
   );
 };

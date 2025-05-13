@@ -26,6 +26,9 @@ const BangNhaCungCap = () => {
     // State lưu dữ liệu bảng và trạng thái chung
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+  
+    // Add state to track user permissions
+    const [hasEditPermission, setHasEditPermission] = useState(false);
 
     // Các state bộ lọc, phân trang
     const [showImportModal, setShowImportModal] = useState(false);
@@ -38,7 +41,42 @@ const BangNhaCungCap = () => {
     const [editingSupplier, setEditingSupplier] = useState(null);
     const [addSupplier, setAddSupplier] = useState(false);
     const [deletingSupplier, setDeletingSupplier] = useState(null);
-
+    
+    // Add authorization check on component mount
+    useEffect(() => {
+        checkUserPermission();
+    }, []);
+    
+    const checkUserPermission = async () => {
+        try {
+            // Get current user data from localStorage
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            
+            // First check if userData already has the username
+            if (userData && userData.ten_dang_nhap === 'TNphuong') {
+                setHasEditPermission(true);
+                return;
+            }
+            
+            // If not, fetch from API to verify
+            const response = await fetch('https://dx.hoangphucthanh.vn:3000/maintenance/accounts');
+            const result = await response.json();
+            
+            if (result.success && Array.isArray(result.data)) {
+                // Find the current user in the accounts list
+                const currentUser = result.data.find(
+                    account => account.ten_dang_nhap === userData.ten_dang_nhap
+                );
+                
+                // Set permission if username is TNphuong
+                setHasEditPermission(currentUser && currentUser.ten_dang_nhap === 'TNphuong');
+            }
+        } catch (error) {
+            console.error('Error checking user permissions:', error);
+            setHasEditPermission(false);
+        }
+    };
+    
     const fetchSuppliers = () => {
         fetchData({
             endpoint: '/suppliers',
@@ -52,12 +90,20 @@ const BangNhaCungCap = () => {
     }, []);
 
     const handleImport = (importedData) => {
+        if (!hasEditPermission) {
+            message.error('Bạn không có quyền import dữ liệu. Chỉ tài khoản TNphuong mới có quyền này.');
+            return;
+        }
         const dataWithSTT = handleGenericImport(data, importedData);
         setData([...data, ...dataWithSTT]);
         message.success('Import thành công!');
     };
 
     const handleEdit = (record) => {
+        if (!hasEditPermission) {
+            message.error('Bạn không có quyền chỉnh sửa. Chỉ tài khoản TNphuong mới có quyền này.');
+            return;
+        }
         setEditingSupplier(record.ma_nha_cung_cap);
     };
 
@@ -66,14 +112,34 @@ const BangNhaCungCap = () => {
         fetchSuppliers();
     };
 
+    const handleAddClick = () => {
+        if (!hasEditPermission) {
+            message.error('Bạn không có quyền thêm nhà cung cấp. Chỉ tài khoản TNphuong mới có quyền này.');
+            return;
+        }
+        setAddSupplier(true);
+    };
+
     const handleAddSuccess = () => {
         setAddSupplier(false);
         fetchSuppliers();
     };
 
     const handleRemove = (record) => {
+        if (!hasEditPermission) {
+            message.error('Bạn không có quyền xóa nhà cung cấp. Chỉ tài khoản TNphuong mới có quyền này.');
+            return;
+        }
         setDeletingSupplier(record);
     };    
+
+    const handleImportClick = () => {
+        if (!hasEditPermission) {
+            message.error('Bạn không có quyền import dữ liệu. Chỉ tài khoản TNphuong mới có quyền này.');
+            return;
+        }
+        setShowImportModal(true);
+    };
 
     const handleRefresh = () => {
         setSearchTerm('');
@@ -97,9 +163,11 @@ const BangNhaCungCap = () => {
         <div className="bang-nha-cung-cap-container">
             <AreaHeader
                 title="Nhà cung cấp"
-                onImportClick={() => setShowImportModal(true)} // Mở modal import
+                onImportClick={handleImportClick}
                 onExportClick={() => setShowExportModal(true)}
-                onAddClick={() => setAddSupplier(true)}
+                onAddClick={handleAddClick}
+                showAddButton={hasEditPermission}
+                showImportButton={hasEditPermission}
             />
 
             <NhaCungCap_Import
@@ -139,6 +207,7 @@ const BangNhaCungCap = () => {
                 loading={loading}
                 handleEdit={handleEdit}
                 handleRemove={handleRemove}
+                hasEditPermission={hasEditPermission}
             />
 
             {/* Chuyển trang và phân trang */}
