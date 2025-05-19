@@ -4,75 +4,51 @@ import { Route, Routes } from "react-router-dom";
 import LayoutApp from "../components/layout/Layout";
 import Loading from "../components/common/Loading";
 
+// Dashboard Components
 const Home = lazy(() => import("../components/Home/Home"));
-// Fix: Use correct file name and component name
-const HangHoa = lazy(() => import("../components/HangHoa/HangHoa/HangHoa_Main"));
-const LoaiHang = lazy(() => import("../components/HangHoa/LoaiHang/LoaiHang_Main"));
-const NhaCungCap = lazy(() => import("../components/NhaCungCap/NCC_Main"));
-const KhachHang = lazy(() => import("../components/KhachHang/KhachHang/KhachHang_Main"));
-const HopDong = lazy(() => import("../components/ChungTu/HopDong/HopDong_Main"));
-const LoaiHopDong = lazy(() => import("../components/ChungTu/LoaiHopDong/LoaiHopDong_Main"));
-const Bill = lazy(() => import("../components/ChungTu/Bill/Bill_Main"));
-const NhapKho = lazy(() => import("../components/NhapKho/NhapKho/NhapKho_Main"));
-const XuatKho = lazy(() => import("../components/XuatKho/XuatKho/XuatKho_Main"));
-const TonKho = lazy(() => import("../components/TonKho/TonKho/TonKho_Main"));
-const DonHang = lazy(() => import("../components/DatHang/DonHang/DonHang_Main"));
-const ChiTietDonHang = lazy(() => import("../components/DatHang/ChiTietDonHang/CTDH_Main"));
-const ProductsDetail = lazy(() => import("../components/Products/productTypes/productType"));
-const Profile = lazy(() => import("../components/profile/Profile"));
-const LineChart = lazy(() => import("../components/Chart/LineChart"));
-const Suppliers = lazy(() => import("../components/Suppliers/Suppliers"));
-const AddSupplier = lazy(() => import("../components/Suppliers/AddSupplier"));
-const Explain = lazy(() => import("../components/Explain/Explain"));
+const Analytics = lazy(() => import("../components/Dashboard/Analytics"));
+const Monitoring = lazy(() => import("../components/Dashboard/Monitoring"));
+
+// Chart Components
+const BarCharts = lazy(() => import("../components/Charts/BarCharts"));
+const LineCharts = lazy(() => import("../components/Charts/LineCharts"));
+const PieCharts = lazy(() => import("../components/Charts/PieCharts"));
+const AreaCharts = lazy(() => import("../components/Charts/AreaCharts"));
+
+// Map Components
+const LocationMap = lazy(() => import("../components/Maps/LocationMap"));
+const HeatMap = lazy(() => import("../components/Maps/HeatMap"));
+const DistributionMap = lazy(() => import("../components/Maps/DistributionMap"));
+
+// Settings
+const Settings = lazy(() => import("../components/Settings/Settings"));
 
 function MainAppRoutes() {
   return (
     <LayoutApp>
       <Suspense fallback={<Loading />}>
         <Routes>
-          {/* Route chính, redirect từ "/" đến "/home" */}
+          {/* Dashboard Routes */}
           <Route path="/" element={<Home />} />
-          {/* Route Home */}
-          <Route path="/home" element={<Home />} />
-          {/* Route Suppliers */}
-          <Route path="/suppliers" element={<NhaCungCap />} />
-          <Route path="/suppliers1" element={<Suppliers />} />
-          <Route path="/suppliers/add" element={<AddSupplier />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/monitoring" element={<Monitoring />} />
 
-          {/* Route Customers */}
-          <Route path="/customers" element={<KhachHang />} />
+          {/* Chart Routes */}
+          <Route path="/bar-charts" element={<BarCharts />} />
+          <Route path="/line-charts" element={<LineCharts />} />
+          <Route path="/pie-charts" element={<PieCharts />} />
+          <Route path="/area-charts" element={<AreaCharts />} />
 
-          {/* Route Contracts */}
-          <Route path="/contracts" element={<HopDong />} />
-          <Route path="/contract_type" element={<LoaiHopDong />} />
-          <Route path="/bill" element={<Bill />} />
-      
-          {/* Route Products */}
-          <Route path="/product_type" element={<LoaiHang />} />
-          <Route path="/products" element={<HangHoa />} />
-          <Route path="/test_product_type" element={<ProductsDetail />} />
+          {/* Map Routes */}
+          <Route path="/location-map" element={<LocationMap />} />
+          <Route path="/heatmap" element={<HeatMap />} />
+          <Route path="/distribution-map" element={<DistributionMap />} />
 
-          {/* Route Stock In */}
-          <Route path="/stock_in" element={<NhapKho />} />
+          {/* Settings */}
+          <Route path="/settings" element={<Settings />} />
 
-          {/* Route Stock Out */}
-          <Route path="/stock_out" element={<XuatKho />} />
-
-          {/* Route Inventory */}
-          <Route path="/inventory" element={<TonKho />} />
-
-          {/* Route Order */}
-          <Route path="/order" element={<DonHang />} />
-          <Route path="/order_detail" element={<ChiTietDonHang />} />
-          
-          {/* Route Profile */}
-          <Route path="/profile" element={<Profile />} />
-          {/* Route Statistic */}
-          <Route path="/statistic" element={<LineChart />} />
-          {/* Route Explain */}
-          <Route path="/bao_gia" element={<Explain />} />
-          {/* Route 404 hoặc catch-all (tùy chọn) */}
-          <Route path="*" element={<Home />} /> {/* Hoặc redirect đến trang 404 */}
+          {/* Catch-all route */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>
     </LayoutApp>

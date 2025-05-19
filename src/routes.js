@@ -22,7 +22,7 @@ function RouteApp() {
 
         {/* Route Login */}
         <Route path="/login" element={<Login />} />
-        
+
         {/* Route Home - Sử dụng HashRouter */}
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
 

@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
 import { Layout, Menu, Breadcrumb, Avatar, message } from 'antd';
 import {
   HomeOutlined,
-  AppstoreOutlined,
-  InboxOutlined,
-  SolutionOutlined,
-  TeamOutlined,
   UserOutlined,
-  FileTextOutlined,
-  ShopOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-  DatabaseOutlined,
-  ShoppingCartOutlined,
   SettingOutlined,
+  DashboardOutlined,
+  BarChartOutlined,
+  LineChartOutlined,
+  PieChartOutlined,
+  AreaChartOutlined,
+  EnvironmentOutlined,
+  GlobalOutlined,
+  HeatMapOutlined,
+  RadarChartOutlined,
 } from '@ant-design/icons';
 
 import './layout.css';
@@ -24,13 +22,14 @@ const showComingSoon = () => {
   message.info("🎉 Tính năng này đang được phát triển nha! Bạn quay lại sau nhé 😉");
 };
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function LayoutApp(props) {
   const { children } = props;
   const navigation = useNavigate();
   const [current, setCurrent] = useState('mail');
+  const [collapsed, setCollapsed] = useState(false);
 
   let keyMenu;
   let tmp = window.location.pathname;
@@ -49,168 +48,132 @@ function LayoutApp(props) {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header className="site-layout-background" style={{ padding: 0, position: 'sticky', top: 0, zIndex: 1 }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 20px',
-          }}
-        >
-          <div className="logo" style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>
-            <a href="https://hoangphucthanh.vn/" style={{ color: '#fff', textDecoration: 'none' }}>
-              HOPT.DX
-            </a>
-          </div>
-
-          {/* Menu điều hướng */}
-          <Menu
-            onClick={handleClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            className="header-menu"
-          >
-            {/* Trang chủ */}
-            <Menu.Item key="/" icon={<HomeOutlined />}>
-              <NavLink to="/">Trang Chủ</NavLink>
-            </Menu.Item>
-
-            {/* Kho Hàng */}
-            <Menu.Item key="warehouse" icon={<InboxOutlined />} onClick={showComingSoon}>
-              Kho Hàng
-            </Menu.Item>
-
-            {/* Nhà Cung Cấp */}
-            <SubMenu
-              key="suppliers"
-              icon={<SolutionOutlined />}
-              title="Nhà Cung Cấp"
-              onTitleClick={() => navigation('/suppliers')}
-            >
-              <Menu.Item key="/suppliers"><NavLink to="/suppliers">Danh sách nhà cung cấp</NavLink></Menu.Item>
-              <Menu.Item key="/suppliers/add"><NavLink to="/suppliers/add">Nhà cung cấp mới</NavLink></Menu.Item>
-              <Menu.Item key="/suppliers1"><NavLink to="/suppliers1">Nhà cung cấp mẫu</NavLink></Menu.Item>
-            </SubMenu>
-
-            {/* Khách Hàng */}
-            <SubMenu
-              key="customers"
-              icon={<TeamOutlined />}
-              title="Khách Hàng"
-              onTitleClick={() => navigation('/customers')}
-            >
-              <Menu.Item key="/customers"><NavLink to="/customers">Khách hàng</NavLink></Menu.Item>
-              <Menu.Item key="new_customer" onClick={showComingSoon}>Khách hàng mới</Menu.Item>
-              <Menu.Item key="by_city" onClick={showComingSoon}>Thống kê KH theo tỉnh thành</Menu.Item>
-              <Menu.Item key="by_staff" onClick={showComingSoon}>Thống kê KH theo người phụ trách</Menu.Item>
-              <Menu.Item key="by_source" onClick={showComingSoon}>Thống kê KH theo nguồn tiếp cận</Menu.Item>
-              <Menu.Item key="competitor" onClick={showComingSoon}>Đối thủ mới</Menu.Item>
-            </SubMenu>
-
-            {/* Chứng Từ */}
-            <SubMenu
-              key="contracts"
-              icon={<FileTextOutlined />}
-              title="Chứng Từ"
-              onTitleClick={() => navigation('/contracts')}
-            >
-              <Menu.Item key="/contract_type"><NavLink to="/contract_type">Loại hợp đồng</NavLink></Menu.Item>
-              <Menu.Item key="/contracts"><NavLink to="/contracts">Hợp Đồng</NavLink></Menu.Item>
-              <Menu.Item key="/bill"><NavLink to="/bill">Các Bill</NavLink></Menu.Item>
-            </SubMenu>
-
-            {/* Hàng Hóa */}
-            <SubMenu
-              key="products"
-              icon={<ShopOutlined />}
-              title="Hàng Hóa"
-              onTitleClick={() => navigation('/products')}
-            >
-              <Menu.Item key="/product_type"><NavLink to="/product_type">Loại hàng hóa</NavLink></Menu.Item>
-              <Menu.Item key="/products"><NavLink to="/products">Danh mục hàng hóa</NavLink></Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Ảnh hàng hóa</Menu.Item>
-            </SubMenu>
-
-            {/* Nhập Kho */}
-            <SubMenu
-              key="stock_in"
-              icon={<DownloadOutlined />}
-              title="Nhập Kho"
-              onTitleClick={() => navigation('/stock_in')}
-            >
-              <Menu.Item key="/stock_in"><NavLink to="/stock_in">Nhập hàng</NavLink></Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng nhập theo tháng</Menu.Item>
-            </SubMenu>
-
-            {/* Xuất Kho */}
-            <SubMenu
-              key="stock_out"
-              icon={<UploadOutlined />}
-              title="Xuất Kho"
-              onTitleClick={() => navigation('/stock_out')}
-            >
-              <Menu.Item key="/stock_out"><NavLink to="/stock_out">Xuất hàng</NavLink></Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng xuất theo tháng</Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng xuất theo khách hàng</Menu.Item>
-            </SubMenu>
-
-            {/* Tồn Kho */}
-            <SubMenu
-              key="inventory"
-              icon={<DatabaseOutlined />}
-              title="Tồn Kho"
-              onTitleClick={() => navigation('/inventory')}
-            >
-              <Menu.Item key="" onClick={showComingSoon}>Kiểm kê kho</Menu.Item>
-              <Menu.Item key="/inventory"><NavLink to="/inventory">Tồn kho</NavLink></Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng nhập và xuất theo tháng</Menu.Item>
-            </SubMenu>
-
-            {/* Đặt Hàng */}
-            <SubMenu
-              key="order"
-              icon={<ShoppingCartOutlined />}
-              title="Đặt Hàng"
-              onTitleClick={() => navigation('/order_detail')}
-            >
-              <Menu.Item key="/order"><NavLink to="/order">Đơn hàng</NavLink></Menu.Item>
-              <Menu.Item key="/order_detail"><NavLink to="/order_detail">Chi tiết đơn hàng</NavLink></Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng đặt theo tháng</Menu.Item>
-              <Menu.Item key="" onClick={showComingSoon}>Thống kê hàng đặt theo khách hàng</Menu.Item>
-            </SubMenu>
-
-            {/* Báo giá
-            <Menu.Item key="/bao_gia" icon={<DollarOutlined />}>
-              <NavLink to="/bao_gia">Báo Giá</NavLink>
-            </Menu.Item> */}
-
-            {/* Tài khoản */}
-            <SubMenu
-              key="user"
-              icon={
-                <IconButton aria-label="user">
-                  <Avatar size="large" icon={<UserOutlined />} />
-                </IconButton>
-              }
-            >
-              <Menu.Item key="logout" onClick={handleLogout}>Log out</Menu.Item>
-            </SubMenu>
-          </Menu>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={value => setCollapsed(value)}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0
+        }}
+      >
+        <div className="logo" style={{
+          color: '#fff',
+          fontSize: collapsed ? '12px' : '20px',
+          fontWeight: 'bold',
+          padding: '16px',
+          textAlign: 'center',
+          height: '64px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <a href="/" style={{ color: '#fff', textDecoration: 'none' }}>
+            {collapsed ? 'UTE' : 'UTE'}
+          </a>
         </div>
-      </Header>
-      <Layout className="site-layout">
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '8px 0', color: '#fff' }}>
-            <Breadcrumb.Item> </Breadcrumb.Item>
-            <Breadcrumb.Item></Breadcrumb.Item>
+
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={['/']}
+          selectedKeys={[keyMenu]}
+          mode="inline"
+        >
+          {/* Dashboard Section */}
+          <SubMenu key="dashboard" icon={<DashboardOutlined />} title="Dashboard">
+            <Menu.Item key="/" icon={<HomeOutlined />}>
+              <NavLink to="/">Overview</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/analytics" icon={<BarChartOutlined />}>
+              <NavLink to="/analytics">Analytics</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/monitoring" icon={<RadarChartOutlined />}>
+              <NavLink to="/monitoring">Sensor Monitoring</NavLink>
+            </Menu.Item>
+          </SubMenu>
+
+          {/* Charts Section */}
+          <SubMenu key="charts" icon={<LineChartOutlined />} title="Charts">
+            <Menu.Item key="/bar-charts" icon={<BarChartOutlined />}>
+              <NavLink to="/bar-charts">Bar Charts</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/line-charts" icon={<LineChartOutlined />}>
+              <NavLink to="/line-charts">Line Charts</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/pie-charts" icon={<PieChartOutlined />}>
+              <NavLink to="/pie-charts">Pie Charts</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/area-charts" icon={<AreaChartOutlined />}>
+              <NavLink to="/area-charts">Area Charts</NavLink>
+            </Menu.Item>
+          </SubMenu>
+
+          {/* Maps Section */}
+          <SubMenu key="maps" icon={<GlobalOutlined />} title="Maps">
+            <Menu.Item key="/location-map" icon={<EnvironmentOutlined />}>
+              <NavLink to="/location-map">Location Map</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/heatmap" icon={<HeatMapOutlined />}>
+              <NavLink to="/heatmap">Heat Map</NavLink>
+            </Menu.Item>
+            <Menu.Item key="/distribution-map" icon={<GlobalOutlined />}>
+              <NavLink to="/distribution-map">Distribution Map</NavLink>
+            </Menu.Item>
+          </SubMenu>
+
+          {/* Settings */}
+          <Menu.Item key="settings" icon={<SettingOutlined />}>
+            <NavLink to="/settings">Cấu hình</NavLink>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+
+      <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'all 0.2s' }}>
+        <Header style={{
+          background: '#fff',
+          padding: '0 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          boxShadow: '0 1px 4px rgba(0, 21, 41, 0.08)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1,
+        }}>
+          <div style={{ marginLeft: 'auto' }}>
+            <Avatar
+              size="large"
+              icon={<UserOutlined />}
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                Menu.open({
+                  items: [
+                    { label: 'Thông tin cá nhân', key: 'profile' },
+                    { label: 'Đăng xuất', key: 'logout', onClick: handleLogout }
+                  ]
+                });
+              }}
+            />
+          </div>
+        </Header>
+
+        <Content style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '4px' }}>
+          <Breadcrumb style={{ marginBottom: '16px' }}>
+            <Breadcrumb.Item>
+              <NavLink to="/">Home</NavLink>
+            </Breadcrumb.Item>
+            {tmpArr[1] && <Breadcrumb.Item>{tmpArr[1].charAt(0).toUpperCase() + tmpArr[1].slice(1)}</Breadcrumb.Item>}
+            {tmpArr[2] && <Breadcrumb.Item>{tmpArr[2]}</Breadcrumb.Item>}
           </Breadcrumb>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div style={{ minHeight: 'calc(100vh - 180px)' }}>
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          <h3>Warehouse</h3>
+
+        <Footer style={{ textAlign: 'center', background: '#f0f2f5' }}>
+          Management System ©{new Date().getFullYear()} Created by Duyên
         </Footer>
       </Layout>
     </Layout>

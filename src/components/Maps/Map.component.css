@@ -1,0 +1,39 @@
+.map-container {
+    height: 100vh;
+    width: 100%;
+    z-index: 1;
+}
+
+.sensor-popup {
+    min-width: 200px;
+    font-family: Arial, sans-serif;
+}
+
+.sensor-popup h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.sensor-popup p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.data-source {
+    font-style: italic;
+    color: #666;
+    margin-top: 8px !important;
+}
+
+.timestamp {
+    color: #888;
+    font-size: 12px;
+}
+
+/* Make sure Leaflet popups display properly */
+.leaflet-popup-content-wrapper {
+    padding: 5px;
+}
