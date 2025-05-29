@@ -34,8 +34,8 @@ body {
   gap: 8px;
 }
 
-.header-menu.ant-menu-horizontal > .ant-menu-item,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu {
+.header-menu.ant-menu-horizontal>.ant-menu-item,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu {
   color: #fff !important;
   font-size: 14px;
   font-weight: 600;
@@ -46,35 +46,35 @@ body {
 }
 
 /* Đảm bảo chữ trong NavLink cũng là màu trắng */
-.header-menu.ant-menu-horizontal > .ant-menu-item a,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu a {
+.header-menu.ant-menu-horizontal>.ant-menu-item a,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu a {
   color: #fff !important;
   text-decoration: none;
 }
 
 /* Hover và selected */
-.header-menu.ant-menu-horizontal > .ant-menu-item:hover,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu:hover,
-.header-menu.ant-menu-horizontal > .ant-menu-item-active,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-active,
-.header-menu.ant-menu-horizontal > .ant-menu-item-open,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-open,
-.header-menu.ant-menu-horizontal > .ant-menu-item-selected,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-selected {
+.header-menu.ant-menu-horizontal>.ant-menu-item:hover,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu:hover,
+.header-menu.ant-menu-horizontal>.ant-menu-item-active,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-active,
+.header-menu.ant-menu-horizontal>.ant-menu-item-open,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-open,
+.header-menu.ant-menu-horizontal>.ant-menu-item-selected,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-selected {
   color: #1890ff !important;
   background: rgba(255, 255, 255, 0.12) !important;
   border-bottom: none !important;
 }
 
 /* Đảm bảo chữ trong NavLink cũng đổi màu khi hover/selected */
-.header-menu.ant-menu-horizontal > .ant-menu-item:hover a,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu:hover a,
-.header-menu.ant-menu-horizontal > .ant-menu-item-active a,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-active a,
-.header-menu.ant-menu-horizontal > .ant-menu-item-open a,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-open a,
-.header-menu.ant-menu-horizontal > .ant-menu-item-selected a,
-.header-menu.ant-menu-horizontal > .ant-menu-submenu-selected a {
+.header-menu.ant-menu-horizontal>.ant-menu-item:hover a,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu:hover a,
+.header-menu.ant-menu-horizontal>.ant-menu-item-active a,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-active a,
+.header-menu.ant-menu-horizontal>.ant-menu-item-open a,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-open a,
+.header-menu.ant-menu-horizontal>.ant-menu-item-selected a,
+.header-menu.ant-menu-horizontal>.ant-menu-submenu-selected a {
   color: #1890ff !important;
 }
 
@@ -124,8 +124,8 @@ body {
     justify-content: center;
   }
 
-  .header-menu.ant-menu-horizontal > .ant-menu-item,
-  .header-menu.ant-menu-horizontal > .ant-menu-submenu {
+  .header-menu.ant-menu-horizontal>.ant-menu-item,
+  .header-menu.ant-menu-horizontal>.ant-menu-submenu {
     margin: 4px 6px;
     padding: 0 8px;
   }
@@ -133,4 +133,8 @@ body {
   .logo {
     font-size: 20px !important;
   }
+}
+
+.ant-layout-sider .ant-menu {
+  margin-top: 10px;
 }

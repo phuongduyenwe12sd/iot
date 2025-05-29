@@ -15,6 +15,8 @@ import {
   HeatMapOutlined,
   RadarChartOutlined,
 } from '@ant-design/icons';
+import uteLogo from './UTE.jpg';  // Đặt file ute.png trong thư mục layout
+
 
 import './layout.css';
 
@@ -65,16 +67,30 @@ function LayoutApp(props) {
           fontWeight: 'bold',
           padding: '16px',
           textAlign: 'center',
-          height: '64px',
+          height: collapsed ? '160px' : '200px',  // Increased height for two logos
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          <a href="/" style={{ color: '#fff', textDecoration: 'none' }}>
-            {collapsed ? 'UTE' : 'UTE'}
+          <a href="/" style={{ color: '#fff', textDecoration: 'none', marginBottom: '10px' }}>
+            {collapsed ? 'FEEE' : 'FEEE'}
           </a>
-        </div>
+          {/* First logo */}
+          <img
+            src={uteLogo}
+            alt="UTE Logo"
+            style={{
+              width: collapsed ? '40px' : '80px',
+              height: 'auto',
+              marginTop: '5px',
+              marginBottom: '10px',
+              transition: 'width 0.2s'
+            }}
+          />
+          {/* Second logo */}
 
+        </div>
         <Menu
           theme="dark"
           defaultSelectedKeys={['/']}
@@ -89,14 +105,14 @@ function LayoutApp(props) {
             <Menu.Item key="/analytics" icon={<BarChartOutlined />}>
               <NavLink to="/analytics">Analytics</NavLink>
             </Menu.Item>
-            <Menu.Item key="/monitoring" icon={<RadarChartOutlined />}>
+            {/* <Menu.Item key="/monitoring" icon={<RadarChartOutlined />}>
               <NavLink to="/monitoring">Sensor Monitoring</NavLink>
-            </Menu.Item>
+            </Menu.Item> */}
           </SubMenu>
 
           {/* Charts Section */}
           <SubMenu key="charts" icon={<LineChartOutlined />} title="Charts">
-            <Menu.Item key="/bar-charts" icon={<BarChartOutlined />}>
+            {/* <Menu.Item key="/bar-charts" icon={<BarChartOutlined />}>
               <NavLink to="/bar-charts">Bar Charts</NavLink>
             </Menu.Item>
             <Menu.Item key="/line-charts" icon={<LineChartOutlined />}>
@@ -104,7 +120,7 @@ function LayoutApp(props) {
             </Menu.Item>
             <Menu.Item key="/pie-charts" icon={<PieChartOutlined />}>
               <NavLink to="/pie-charts">Pie Charts</NavLink>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="/area-charts" icon={<AreaChartOutlined />}>
               <NavLink to="/area-charts">Area Charts</NavLink>
             </Menu.Item>
@@ -115,18 +131,18 @@ function LayoutApp(props) {
             <Menu.Item key="/location-map" icon={<EnvironmentOutlined />}>
               <NavLink to="/location-map">Location Map</NavLink>
             </Menu.Item>
-            <Menu.Item key="/heatmap" icon={<HeatMapOutlined />}>
+            {/* <Menu.Item key="/heatmap" icon={<HeatMapOutlined />}>
               <NavLink to="/heatmap">Heat Map</NavLink>
             </Menu.Item>
             <Menu.Item key="/distribution-map" icon={<GlobalOutlined />}>
               <NavLink to="/distribution-map">Distribution Map</NavLink>
-            </Menu.Item>
+            </Menu.Item> */}
           </SubMenu>
 
           {/* Settings */}
-          <Menu.Item key="settings" icon={<SettingOutlined />}>
+          {/* <Menu.Item key="settings" icon={<SettingOutlined />}>
             <NavLink to="/settings">Cấu hình</NavLink>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
 
