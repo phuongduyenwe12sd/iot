@@ -8,14 +8,11 @@
 // Provide the RTDB payload printing info and other helper functions
 #include "addons/RTDBHelper.h"
 
-// WiFi credentials
-const char *ssid = "Phuong";
-const char *password = "0386399516";
+const char *ssid = "YOUR_WIFI_SSID";
+const char *password = "YOUR_WIFI_PASSWORD";
 
-// Firebase credentials
-#define API_KEY "AIzaSyAzuloKPhOSsoDTKw4Ks4Gx0mvw_h6Sj3s"
-#define DATABASE_URL "https://project-3680597276515843100-default-rtdb.firebaseio.com/"
-
+#define API_KEY "YOUR_FIREBASE_API_KEY"
+#define DATABASE_URL "YOUR_FIREBASE_DATABASE_URL"
 // Define Firebase Data object, Auth and Config
 FirebaseData fbdo;
 FirebaseAuth auth;
